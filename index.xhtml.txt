@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>社会保険料自動計算</title>
+    </h:head>
+
+
+    <h:form id = "code">
+        <h:message for ="code"/>
+
+        <h2>社会保険料自動計算（平成31年度）</h2>
+        <h3>【情報の入力】</h3>
+
+        <h4>総支給額：
+            <h:inputText id ="positiveNumber" value="${calculation.salary}">
+                <f:convertNumber pattern="#,###"/>
+            </h:inputText>
+            円</h4>            
+        ※半角数字で入力してください。<br/>
+        <h:message for="positiveNumber"/> 
+
+        <h4>
+            年齢：
+            <h:selectOneRadio value="${calculation.age}">
+                <f:selectItem itemLabel="40歳未満" itemValue="1" />
+                <f:selectItem itemLabel="40歳以上65歳未満" itemValue="2" />
+            </h:selectOneRadio>
+        </h4>
+
+        <h4> 
+            勤務先のある都道府県：
+            <h:selectOneMenu value="${calculation.prefId}">
+                <f:selectItems value="${calculation.prefList}" />                   
+            </h:selectOneMenu>
+        </h4>
+
+        <h4>
+            事業の種類：
+            <h:selectOneMenu value="${calculation.business}">
+                <f:selectItem itemLabel="一般の事業" itemValue="1" />
+                <f:selectItem itemLabel="農林水産・清酒製造の事業" itemValue="2" />
+                <f:selectItem itemLabel="建設の事業" itemValue="3" />
+            </h:selectOneMenu>
+        </h4>
+
+        <h:commandButton value="計算する" action="${calculation.calc()}"/><br/>
+    </h:form>
+
+    ------------------------------------------------------------------------------------------------------------------------------------------------------
+    <h3>【計算結果】</h3>
+    <h4>
+        健康保険料：
+        <h:outputText value="${calculation.outputHealth}">
+            <f:convertNumber pattern="#,###"/>
+        </h:outputText>
+        円
+    </h4>
+    <h5>
+        (標準報酬月額等級：
+        <h:outputText value="${calculation.outputHealthRank}"></h:outputText>
+        級)
+    </h5>
+    <h4>
+        厚生年金保険料：
+        <h:outputText value="${calculation.outputPension}">
+            <f:convertNumber pattern="#,###"/>
+        </h:outputText>
+        円
+    </h4>
+    <h5>
+        (標準報酬月額等級：
+        <h:outputText value="${calculation.outputPensionRank}"></h:outputText>
+        級)
+    </h5>
+    <h4>
+        雇用保険料：
+        <h:outputText value="${calculation.outputEmployment}">
+            <f:convertNumber pattern="#,###"/>
+        </h:outputText>
+        円
+    </h4>
+    <h4>
+        社会保険料の合計は、
+        <h:outputText value="${calculation.outputTotalSocial}">
+            <f:convertNumber pattern="#,###"/>
+        </h:outputText>
+        円です。
+    </h4>
+    ------------------------------------------------------------------------------------------------------------------------------------------------------
+    <h3>【入力履歴】</h3>
+    <h:dataTable id="table1" value="${calculation.tableList}" var="record" border="1">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header1" value="入力番号" />
+            </f:facet>
+            <h:outputText value="${record.inputNumData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header2" value="総支給" />
+            </f:facet>
+            <h:outputText value="${record.salaryData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header3" value="年齢区分" />
+            </f:facet>
+            <h:outputText value="${record.ageDivisionData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header4" value="都道府県" />
+            </f:facet>
+            <h:outputText value="${record.prefNameData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header5" value="業種" />
+            </f:facet>
+            <h:outputText value="${record.occupationsData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header6" value="健康保険料" />
+            </f:facet>
+            <h:outputText value="${record.healthData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header7" value="厚生年金保険料" />
+            </f:facet>
+            <h:outputText value="${record.pensionData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header8" value="雇用保険料" />
+            </f:facet>
+            <h:outputText value="${record.employmentData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header9" value="社会保険料計" />
+            </f:facet>
+            <h:outputText value="${record.totalSocialData }" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText id="header10" value="入力日時" />
+            </f:facet>
+            <h:outputText value="${record.inputTimeData }" />
+        </h:column>
+    </h:dataTable>
+    <h:form>
+      <h:commandButton value="履歴を初期化する" action="${calculation.deleteInfo()}"/>  
+    </h:form>
+
+    <h:messages/>
+
+
+
+</html>
