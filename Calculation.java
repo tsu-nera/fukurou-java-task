@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -76,7 +70,7 @@ public class Calculation {
 
             }
         } catch (SQLException e) {
-            context.addMessage("code", new FacesMessage(e.getMessage() + "(DBÊé•Á∂öÊôÇ)"));
+            context.addMessage("code", new FacesMessage(e.getMessage() + "(DBê⁄ë±éû)"));
         } finally {
             try {
                 if (rs != null) {
@@ -113,16 +107,16 @@ public class Calculation {
         healthRate = prefInfo.getRate();
 
         if (this.salary < 0) {
-            context.addMessage("code:positiveNumber", new FacesMessage("‚ÄªÁ∑èÊîØÁµ¶„ÅØÊ≠£„ÅÆÊï¥Êï∞„ÇíÂçäËßí„ÅßÂÖ•Âäõ„Åó„Å¶„Åè„Å†„Åï„ÅÑ„ÄÇ"));
+            context.addMessage("code:positiveNumber", new FacesMessage("Å¶ëçéxããÇÕê≥ÇÃêÆêîÇîºäpÇ≈ì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB"));
             return;
         }
 
-        //„ÄÄ‰ªãË≠∑‰øùÈô∫ÊñôÁéáÂØæË±°ËÄÖ„Å∏„ÅÆÂÅ•Â∫∑‰øùÈô∫ÊñôÁéá„ÅÆ‰∏ä‰πó„ÅõÂá¶ÁêÜ„Åß„Åô„ÄÇÊîπÂÆöÊôÇÂ§âÊõ¥„ÅåÂøÖË¶Å„Åß„Åô„ÄÇ	
+        //Å@âÓåÏï€åØóøó¶ëŒè€é“Ç÷ÇÃåíçNï€åØóøó¶ÇÃè„èÊÇπèàóùÇ≈Ç∑ÅBâ¸íËéûïœçXÇ™ïKóvÇ≈Ç∑ÅB	
         if (age == 2) {
             healthRate = healthRate.add(new BigDecimal("0.0173"));
         }
 
-        //„ÄÄÊ®ôÊ∫ñÂ†±ÈÖ¨ÊúàÈ°ç„ÇíÁ¢∫ÂÆö„Åó„ÄÅÂÅ•Â∫∑‰øùÈô∫Êñô„Å®ÂéöÁîüÂπ¥Èáë‰øùÈô∫Êñô„ÇíÁÆóÂá∫„Åó„Åæ„Åô„ÄÇ
+        //Å@ïWèÄïÒèVåéäzÇämíËÇµÅAåíçNï€åØóøÇ∆å˙ê∂îNã‡ï€åØóøÇéZèoÇµÇ‹Ç∑ÅB
         for (StandardFeeMonthlyAmount sfma : sfmaList) {
             if (sfma.getMaxSalary() == null || this.salary <= sfma.getMaxSalary()) {
                 outputHealth = new BigDecimal(sfma.getStH()).multiply(healthRate)
@@ -135,7 +129,7 @@ public class Calculation {
             }
         }
 
-        //ÈõáÁî®‰øùÈô∫Êñô„ÇíÁÆóÂá∫„Åó„Åæ„Åô„ÄÇÊîπÂÆö„Åå„ÅÇ„Å£„Åü„ÇâÂ§âÊõ¥„Åó„Å¶‰∏ã„Åï„ÅÑ„ÄÇ
+        //åŸópï€åØóøÇéZèoÇµÇ‹Ç∑ÅBâ¸íËÇ™Ç†Ç¡ÇΩÇÁïœçXÇµÇƒâ∫Ç≥Ç¢ÅB
         BigDecimal bd, bd1;
 
         switch (this.business) {
@@ -171,12 +165,12 @@ public class Calculation {
             cs.setInt(7, this.outputEmployment);
             cs.setInt(8, this.outputTotalSocial);
             cs.registerOutParameter(9, Types.INTEGER);
-            //‚ÜëÂæå„ÅßÁ¢∫Ë™ç
+            //Å™å„Ç≈ämîF
             cs.execute();
             con.commit();
-            //‚Üë„Çπ„Éà„Ç¢„ÉâÊõ∏„Åè„Å®„ÅçÂøÖË¶Å
+            //Å™ÉXÉgÉAÉhèëÇ≠Ç∆Ç´ïKóv
         } catch (SQLException e) {
-            context.addMessage("code", new FacesMessage(e.getMessage() + "(DB„Å∏‰øùÂ≠òÊôÇ)"));
+            context.addMessage("code", new FacesMessage(e.getMessage() + "(DBÇ÷ï€ë∂éû)"));
         }
 
     }
